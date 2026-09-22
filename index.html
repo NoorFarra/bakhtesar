@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="نسخة تجريبية لموقع باختصار الإخباري الرقمي" />
+  <title>باختصار | الأخبار كما حدثت</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="demo-ribbon" data-i18n="demoRibbon">نسخة تجريبية — المحتوى المعروض غير حقيقي ومخصص لاستعراض التصميم</div>
+
+  <header class="site-header">
+    <div class="utility-shell">
+      <div class="utility-bar container">
+        <div class="utility-live" aria-label="Local information">
+          <div class="weather-box" id="weatherBox">
+            <span class="live-icon weather-icon" id="weatherIcon" aria-hidden="true">◌</span>
+            <div class="live-copy">
+              <strong id="weatherLocation" data-i18n="weatherRequestTitle">الطقس حسب موقعك</strong>
+              <span id="weatherDetails" data-i18n="weatherRequestHint">سيطلب المتصفح إذن الموقع</span>
+            </div>
+            <button id="weatherRefresh" class="mini-action" type="button" aria-label="تحديث الطقس" title="تحديث الطقس">↻</button>
+          </div>
+
+          <span class="utility-separator" aria-hidden="true">•</span>
+
+          <div class="clock-box">
+            <span class="live-icon" aria-hidden="true">◷</span>
+            <div class="live-copy">
+              <strong id="localTime">--:--:--</strong>
+              <span id="liveDate" aria-label="التاريخ المحلي"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="utility-links">
+          <a href="#about" data-i18n="aboutLink">من نحن</a>
+          <a href="#policy" data-i18n="policyLink">سياستنا التحريرية</a>
+          <a href="#contact" data-i18n="contactLink">تواصل معنا</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-shell">
+      <div class="container main-nav">
+        <a href="#top" class="brand" aria-label="باختصار - الرئيسية">
+          <img src="assets/logo-white-transparent.png" alt="شعار باختصار" />
+        </a>
+
+        <nav class="desktop-nav" aria-label="التنقل الرئيسي">
+          <a class="active" href="#top" data-i18n="navHome">الرئيسية</a>
+          <a href="#latest" data-category-key="palestine" data-i18n="catPalestine">فلسطين</a>
+          <a href="#latest" data-category-key="arab" data-i18n="catArab">العالم العربي</a>
+          <a href="#latest" data-category-key="world" data-i18n="catWorld">دولي</a>
+          <a href="#latest" data-category-key="economy" data-i18n="catEconomy">اقتصاد</a>
+          <a href="#latest" data-category-key="sports" data-i18n="catSports">رياضة</a>
+          <a href="#explainers" data-i18n="navExplainers">تقارير وشرح</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button id="langToggle" class="language-btn" type="button" aria-label="Switch to English" title="English"><span class="lang-globe">◎</span><span id="langToggleText">EN</span></button>
+          <button id="searchOpen" class="icon-btn" type="button" aria-label="فتح البحث">⌕</button>
+          <button id="themeToggle" class="icon-btn" type="button" aria-label="تبديل الوضع الليلي">◐</button>
+          <button id="menuToggle" class="icon-btn menu-btn" type="button" aria-label="فتح القائمة">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="breaking-bar" role="status" aria-live="polite">
+      <div class="container breaking-inner">
+        <div class="breaking-label"><span class="pulse"></span> <span data-i18n="breaking">عاجل</span></div>
+        <div class="ticker-viewport">
+          <div class="ticker-track" id="tickerTrack"></div>
+        </div>
+        <button class="ticker-pause" id="tickerPause" type="button" aria-label="إيقاف شريط الأخبار">Ⅱ</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="immersive-hero" aria-label="أبرز الأخبار">
+      <div id="immersiveSlides" class="immersive-slides"></div>
+      <button type="button" class="immersive-arrow immersive-prev" id="heroPrev" aria-label="السابق">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button type="button" class="immersive-arrow immersive-next" id="heroNext" aria-label="التالي">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+      <div id="heroDots" class="immersive-dots"></div>
+    </section>
+    <section class="shorts-section container" id="shorts">
+      <div class="section-head shorts-head"><div><span class="eyebrow">BIKHTISAR STORIES</span><h2 data-ar="القصص باختصار" data-en="Stories in brief">القصص باختصار <span class="shorts-spark">✦</span></h2></div><span class="shorts-hint">اسحب لاستكشاف المزيد ←</span></div>
+      <div class="shorts-rail" id="shortsRail"></div>
+    </section>
+    <section class="hero container section-gap">
+      <article class="hero-lead glass-card reveal" data-open-article="1" tabindex="0">
+        <div class="hero-visual visual-palestine">
+          <span class="category-badge" data-i18n="catPalestine">فلسطين</span>
+          <div class="hero-overlay"></div>
+          <div class="visual-watermark" data-i18n="brandName">باختصار</div>
+        </div>
+        <div class="hero-content">
+          <div class="meta-line"><span data-i18n="heroTime">منذ 18 دقيقة</span><span>•</span><span data-i18n="read3">قراءة 3 دقائق</span></div>
+          <h1 data-i18n="heroTitle">نموذج تغطية رئيسية: كيف نعرض أهم خبر في اليوم بسرعة ووضوح دون تضخيم</h1>
+          <p data-i18n="heroText">مساحة الخبر الرئيسي مصممة لتُظهر المعلومة الأهم، مع سياق مختصر، مصدر واضح، وتاريخ تحديث ظاهر للقارئ.</p>
+          <div class="hero-actions">
+            <button class="primary-btn" type="button" data-i18n="readDetails">اقرأ التفاصيل</button>
+            <button class="text-btn" type="button" data-share="1" data-i18n="share">مشاركة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <div class="hero-side">
+        <article class="side-story reveal" data-open-article="2" tabindex="0">
+          <div class="side-thumb visual-economy"><span data-i18n="catEconomy">اقتصاد</span></div>
+          <div>
+            <div class="meta-line"><span data-i18n="time32">منذ 32 دقيقة</span></div>
+            <h3 data-i18n="sideEconomyTitle">شرح تجريبي: ماذا يعني القرار الاقتصادي الجديد للمستهلك والسوق؟</h3>
+          </div>
+        </article>
+        <article class="side-story reveal" data-open-article="3" tabindex="0">
+          <div class="side-thumb visual-world"><span data-i18n="catWorld">دولي</span></div>
+          <div>
+            <div class="meta-line"><span data-i18n="time45">منذ 45 دقيقة</span></div>
+            <h3 data-i18n="sideWorldTitle">أبرز التطورات الدولية في موجز واحد قابل للقراءة خلال دقيقة</h3>
+          </div>
+        </article>
+
+        <aside class="brief-card reveal" aria-label="باختصار الآن">
+          <div class="brief-head">
+            <span data-i18n="briefNow">باختصار الآن</span>
+            <span class="live-pill">LIVE</span>
+          </div>
+          <ul>
+            <li><strong>10:42</strong><span data-i18n="brief1">تحديث تجريبي سريع يمكن تغييره من لوحة التحرير.</span></li>
+            <li><strong>10:28</strong><span data-i18n="brief2">معلومة قصيرة مع مصدر واضح قبل الانتقال إلى التفاصيل.</span></li>
+            <li><strong>10:05</strong><span data-i18n="brief3">تنبيه جديد يظهر هنا ضمن التغطية المتواصلة.</span></li>
+          </ul>
+          <a class="inline-link" href="#latest" data-i18n="allUpdates">كل التحديثات ←</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="trust-strip">
+      <div class="container trust-grid">
+        <div><span>01</span><strong data-i18n="trust1Title">نذكر المصدر</strong><small data-i18n="trust1Text">الإسناد جزء من الخبر، مش تفصيل إضافي.</small></div>
+        <div><span>02</span><strong data-i18n="trust2Title">نصحح بوضوح</strong><small data-i18n="trust2Text">أي تحديث جوهري يظهر للقارئ ولا يختفي.</small></div>
+        <div><span>03</span><strong data-i18n="trust3Title">نفصل الإعلان عن التحرير</strong><small data-i18n="trust3Text">المعلن يشتري مساحة، لا يشتري موقفاً تحريرياً.</small></div>
+      </div>
+    </section>
+
+    <section id="latest" class="container section-gap">
+      <div class="section-heading reveal">
+        <div>
+          <span class="eyebrow" data-i18n="latestEyebrow">آخر الأخبار</span>
+          <h2 data-i18n="latestTitle">كل ما تحتاج معرفته، بترتيب واضح</h2>
+        </div>
+        <div class="section-tools"><div class="filter-chips" id="filterChips"></div></div>
+      </div>
+
+      <div class="content-grid">
+        <div>
+          <div id="newsGrid" class="news-grid"></div>
+          <button id="loadMore" class="load-more" type="button" data-i18n="loadMore">عرض المزيد من الأخبار</button>
+        </div>
+
+        <aside class="sidebar">
+          <div class="sidebar-card reveal">
+            <div class="sidebar-title"><span data-i18n="mostRead">الأكثر قراءة</span><small data-i18n="last24">آخر 24 ساعة</small></div>
+            <ol class="ranking-list">
+              <li><span class="rank">01</span><a href="#" data-i18n="rank1">عنوان تجريبي لخبر حقق أكبر تفاعل اليوم</a></li>
+              <li><span class="rank">02</span><a href="#" data-i18n="rank2">شرح مختصر لموضوع يتصدر اهتمامات القرّاء</a></li>
+              <li><span class="rank">03</span><a href="#" data-i18n="rank3">متابعة زمنية لأبرز التطورات خلال الساعات الماضية</a></li>
+              <li><span class="rank">04</span><a href="#" data-i18n="rank4">خبر اقتصادي مبسط بالأرقام والسياق</a></li>
+              <li><span class="rank">05</span><a href="#" data-i18n="rank5">قصة رياضية بملخص سريع وواضح</a></li>
+            </ol>
+          </div>
+
+          <div class="sidebar-card source-card reveal">
+            <span class="eyebrow" data-i18n="howWeWork">كيف نعمل؟</span>
+            <h3 data-i18n="sourceToReader">من المصدر إلى القارئ</h3>
+            <div class="flow-mini">
+              <span data-i18n="flowSource">مصدر</span><i data-i18n="flowArrow">←</i><span data-i18n="flowVerify">تحقق</span><i data-i18n="flowArrow">←</i><span data-i18n="flowEdit">تحرير</span><i data-i18n="flowArrow">←</i><span data-i18n="flowPublish">نشر</span>
+            </div>
+            <p data-i18n="workflowText">هذا النموذج يترجم السياسة التحريرية للوكالة إلى تجربة واضحة للمستخدم.</p>
+            <a class="inline-link" href="#policy" data-i18n="readPolicy">اقرأ سياستنا ←</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="dark-zone" id="explainers">
+      <div class="container section-gap">
+        <div class="section-heading light reveal">
+          <div>
+            <span class="eyebrow" data-i18n="reportsEyebrow">تقارير وشرح</span>
+            <h2 data-i18n="reportsTitle">مش بس ماذا حدث... لماذا يهمك؟</h2>
+          </div>
+          <p data-i18n="reportsText">هذا القسم هو مساحة القيمة الأصلية للوكالة: سياق، تسلسل زمني، أرقام، ومقارنات مبسطة.</p>
+        </div>
+
+        <div class="explainers-grid">
+          <article class="explainer-card reveal">
+            <div class="explainer-number">01</div>
+            <span class="tag" data-i18n="tagExplain">شرح</span>
+            <h3 data-i18n="explain1Title">خمسة أسئلة تجيبك على خلفية موضوع متصدر</h3>
+            <p data-i18n="explain1Text">قالب تحريري يُحوّل الأخبار المتفرقة إلى قصة مفهومة بدون ضوضاء.</p>
+            <button class="ghost-btn" type="button" data-i18n="openReport">افتح التقرير</button>
+          </article>
+          <article class="explainer-card featured reveal">
+            <div class="explainer-number">02</div>
+            <span class="tag" data-i18n="tagTimeline">خط زمني</span>
+            <h3 data-i18n="explain2Title">ماذا حدث خلال 24 ساعة؟ تسلسل زمني بصري مختصر</h3>
+            <p data-i18n="explain2Text">مناسب للأحداث المتسارعة: وقت، تحديث، مصدر، وما الذي تغير في كل مرحلة.</p>
+            <button class="ghost-btn" type="button" data-i18n="viewTimeline">شاهد التسلسل</button>
+          </article>
+          <article class="explainer-card reveal">
+            <div class="explainer-number">03</div>
+            <span class="tag" data-i18n="tagNumbers">بالأرقام</span>
+            <h3 data-i18n="explain3Title">بيانات موضوعية تُعرض في بطاقة سهلة القراءة</h3>
+            <p data-i18n="explain3Text">بدون رسوم ثقيلة أو جداول معقدة؛ فقط المؤشرات التي يحتاجها القارئ.</p>
+            <button class="ghost-btn" type="button" data-i18n="viewData">عرض البيانات</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-gap" id="factcheck">
+      <div class="factcheck-shell reveal">
+        <div class="factcheck-mark">✓</div>
+        <div>
+          <span class="eyebrow" data-i18n="factCheck">تحقق</span>
+          <h2 data-i18n="factTitle">قبل ما نعيد نشر أي ادعاء متداول</h2>
+          <p data-i18n="factText">بطاقة تحقق سريعة توضّح: ما الادعاء؟ ما مصدره؟ وما الذي نعرفه حتى الآن؟</p>
+        </div>
+        <div class="factcheck-status">
+          <span data-i18n="exampleStatus">حالة المثال</span>
+          <strong data-i18n="unverified">غير مثبت</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-gap" id="about">
+      <div class="about-grid">
+        <div class="about-copy reveal">
+          <span class="eyebrow" data-i18n="aboutEyebrow">عن باختصار</span>
+          <h2 data-i18n="aboutTitle">وكالة رقمية مستقلة، سريعة بدون استعجال، ومختصرة بدون بتر</h2>
+          <p data-i18n="aboutText">فكرة المنصة قائمة على رصد أهم الأخبار من مصادر موثوقة، التحقق منها، إعادة تحريرها بلغة واضحة، وإضافة السياق الذي يجعل الخبر مفهوماً وقابلاً للاستخدام.</p>
+          <div class="about-points">
+            <span data-i18n="point1">استقلالية تحريرية</span>
+            <span data-i18n="point2">شفافية في المصادر</span>
+            <span data-i18n="point3">تصحيح معلن</span>
+            <span data-i18n="point4">إعلان منفصل بوضوح</span>
+          </div>
+        </div>
+
+        <div class="brand-preview reveal">
+          <div class="brand-frame"><img src="assets/logo-black-light.jpg" alt="شعار باختصار - النسخة الداكنة على خلفية فاتحة" /></div>
+          <div class="brand-note"><strong data-i18n="visualIdentity">هوية بصرية مرنة</strong><span data-i18n="visualIdentityText">نسخة فاتحة للموقع، ونسخة شفافة للفيديوهات والسوشال.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="policy-section" id="policy">
+      <div class="container policy-grid">
+        <div class="policy-copy reveal">
+          <span class="eyebrow" data-i18n="editorialPolicy">سياسة التحرير</span>
+          <h2 data-i18n="policyTitle">القواعد التي تحمي القارئ وتحمي الوكالة</h2>
+          <p data-i18n="policyText">حتى النسخة التجريبية من الموقع تعكس خطتنا التشغيلية: مصدر واضح، مراجعة، تمييز الإعلان، وتصحيح موثق عند الحاجة.</p>
+        </div>
+        <div class="policy-list reveal">
+          <div><span>أ</span><p><strong data-i18n="policy1Title">الدقة قبل السرعة</strong><br><span data-i18n="policy1Text">خبر أقل أسرع من خبر خاطئ أسرع.</span></p></div>
+          <div><span>ب</span><p><strong data-i18n="policy2Title">المصدر جزء من النص</strong><br><span data-i18n="policy2Text">نوضح من قال ومتى وبأي صفة.</span></p></div>
+          <div><span>ج</span><p><strong data-i18n="policy3Title">حق الرد والتصحيح</strong><br><span data-i18n="policy3Text">قناة واضحة للشكاوى والتحديثات الجوهرية.</span></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section-gap" id="contact">
+      <div class="newsletter reveal">
+        <div>
+          <span class="eyebrow" data-i18n="newsletterEyebrow">النشرة اليومية</span>
+          <h2 data-i18n="newsletterTitle">الخلاصة في بريدك، بدون إزعاج</h2>
+          <p data-i18n="newsletterText">حقل تجريبي لتوضيح مكان خدمة الـNewsletter في النسخة النهائية.</p>
+        </div>
+        <form id="newsletterForm" class="newsletter-form">
+          <input type="email" id="newsletterEmail" placeholder="name@example.com" aria-label="البريد الإلكتروني" required />
+          <button class="primary-btn" type="submit" data-i18n="subscribeNow">اشترك الآن</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="assets/logo-white-transparent.png" alt="شعار باختصار" />
+        <p data-i18n="footerDescription">منصة إخبارية رقمية مستقلة — نموذج تجريبي بدون قاعدة بيانات أو محتوى حقيقي.</p>
+      </div>
+      <div>
+        <h4 data-i18n="footerSections">الأقسام</h4>
+        <a href="#latest" data-i18n="catPalestine">فلسطين</a><a href="#latest" data-i18n="catEconomy">اقتصاد</a><a href="#latest" data-i18n="catWorld">دولي</a><a href="#explainers" data-i18n="footerReports">تقارير</a>
+      </div>
+      <div>
+        <h4 data-i18n="footerOrg">المؤسسة</h4>
+        <a href="#about" data-i18n="aboutLink">من نحن</a><a href="#policy" data-i18n="policyLink">السياسة التحريرية</a><a href="#policy" data-i18n="corrections">التصحيحات</a><a href="#contact" data-i18n="advertising">الإعلانات</a>
+      </div>
+      <div>
+        <h4 data-i18n="followUs">تابعنا</h4>
+        <div class="social-links"><a href="#">F</a><a href="#">IG</a><a href="#">X</a><a href="#">TG</a></div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span data-i18n="copyright">© 2026 باختصار — نموذج تصميمي</span>
+      <span data-i18n="slogan">الأخبار كما حدثت، باختصار.</span>
+    </div>
+  </footer>
+
+  <div id="searchOverlay" class="search-overlay" aria-hidden="true">
+    <button id="searchClose" class="search-close" type="button" aria-label="إغلاق البحث">×</button>
+    <div class="search-panel">
+      <span class="eyebrow" data-i18n="quickSearch">بحث سريع</span>
+      <h2 data-i18n="searchTitle">اكتب كلمة من عنوان الخبر</h2>
+      <input id="globalSearch" type="search" placeholder="مثال: اقتصاد، دولي، رياضة..." />
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="mobile-drawer" aria-hidden="true">
+    <button id="menuClose" class="search-close" type="button" aria-label="إغلاق القائمة">×</button>
+    <img src="assets/logo-white-transparent.png" alt="باختصار" />
+    <nav>
+      <a href="#top" data-i18n="navHome">الرئيسية</a><a href="#latest" data-i18n="catPalestine">فلسطين</a><a href="#latest" data-i18n="catArab">العالم العربي</a><a href="#latest" data-i18n="catWorld">دولي</a><a href="#latest" data-i18n="catEconomy">اقتصاد</a><a href="#latest" data-i18n="catSports">رياضة</a><a href="#explainers" data-i18n="navExplainers">تقارير وشرح</a><a href="#about" data-i18n="aboutLink">من نحن</a>
+    </nav>
+  </div>
+
+  <nav class="mobile-bottom-nav" aria-label="التنقل السريع">
+    <a href="#top" class="bottom-active"><span>⌂</span><small data-i18n="navHome">الرئيسية</small></a>
+    <a href="#latest" aria-label="الأخبار"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h4v4H7zM15 7h3M15 10h3M7 15h11M7 18h11"/></svg></span><small data-i18n="navNews">الأخبار</small></a>
+    <a href="#shorts"><span>▷</span><small>Stories</small></a>
+    <a href="#explainers"><span>✦</span><small data-i18n="navExplainers">تقارير</small></a>
+    <button type="button" id="bottomSearch"><span>⌕</span><small>بحث</small></button>
+  </nav>
+
+  <div id="articleModal" class="article-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="قراءة الخبر">
+    <div class="article-modal-card" tabindex="-1">
+      <button id="articleClose" class="search-close" type="button" aria-label="إغلاق الخبر">×</button>
+      <div id="articleModalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
