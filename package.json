@@ -1,7 +1,0 @@
-{
-  "name":"bikhtisar-news-demo",
-  "private":true,
-  "type":"module",
-  "version":"2.0.0",
-  "dependencies":{"@vercel/blob":"^1.1.1"}
-}
